@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
@@ -8,6 +9,8 @@ const { authRouter } = require("./routes/authRouter");
 const { productRouter } = require("./routes/productRouter");
 const { cartRouter } = require("./routes/cartRouter");
 const { addressRouter } = require("./routes/addressRouter");
+const { paymentRouter } = require("./routes/paymentRouter");
+const { orderRouter } = require("./routes/orderRouter");
 
 const DB_PATH = "mongodb+srv://root:RiTUR%40JKUM%40R1105@riturajkumardev.nxnptwm.mongodb.net/ShopAdda?retryWrites=true&w=majority&appName=RiturajKumarDev";
 
@@ -25,6 +28,8 @@ app.use("/api/user", authRouter);
 app.use("/api/address", addressRouter);
 app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);
+app.use("/api/payment", paymentRouter);
+app.use("/api/order", orderRouter);
 
 
 app.use((req, res) => {

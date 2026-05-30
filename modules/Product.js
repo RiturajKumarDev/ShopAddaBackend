@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Cart = require("./Cart");
 
 const ProductSchema = new mongoose.Schema({
+    userEmail: { type: String, required: true, trim: true, },
     name: { type: String, required: true, trim: true, },
     brand: { type: String, trim: true, },
     category: { type: String, trim: true },
@@ -21,9 +22,13 @@ const ProductSchema = new mongoose.Schema({
 });
 
 ProductSchema.pre('findOneAndDelete', async function () {
-    // const houseId = this.getQuery()["_id"];
-    const productId = this.getQuery()._id;
-    // await Cart.deleteMany({ productId: productId });
+    try {
+        const productId = this.getQuery()._id;
+        await Cart.deleteMany({ productId });
+    } catch (err) {
+        console.error('Error deleting cart items:', err);
+        throw err;
+    }
 });
 
 module.exports = mongoose.model("Product", ProductSchema);

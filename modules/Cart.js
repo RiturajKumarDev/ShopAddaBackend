@@ -13,6 +13,7 @@ const CartSchema = new mongoose.Schema(
             require: true,
             unique: true
         },
+        quantity: { type: Number, default: 1 },
         addDate: { type: Date, default: Date.now },
     },
 );

@@ -2,14 +2,17 @@ const fs = require("fs");
 const Product = require("../modules/Product");
 
 exports.uploadProduct = async (req, res, next) => {
-    const { name, brand, rating, reviews, price, originalPrice, discount, description, features, specifications, images, colors, sizes, inStock } = req.body;
-    const product = new Product({ name, brand, rating, reviews, price, originalPrice, discount, description, features, specifications, images, colors, sizes, inStock });
-    product.save()
-        .then(result => {
-            return res.status(201).json(product);
-        }).catch(error => {
-            return res.status(422).json({ "errors": error.errmsg });
-        });
+    const { userEmail, name, brand, rating, reviews, price, originalPrice, discount, description, features, specifications, images, colors, sizes, inStock } = req.body;
+    const product = new Product({ userEmail, name, brand, rating, reviews, price, originalPrice, discount, description, features, specifications, images, colors, sizes, inStock });
+    if (userEmail.toLowerCase() === 'riturajkumar1105@gmail.com') {
+        product.save()
+            .then(result => {
+                return res.status(201).json(product);
+            }).catch(error => {
+                return res.status(422).json({ "errors": error.errmsg });
+            });
+    } else
+        return res.status(404).json({ "errors": "You cannot access this!!" });
 };
 
 exports.getProduct = async (req, res, next) => {

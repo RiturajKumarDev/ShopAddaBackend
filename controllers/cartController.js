@@ -27,7 +27,6 @@ exports.getCartListProducts = async (req, res, next) => {
     const { userId } = req.params;
     try {
         const cartListProducts = await Cart.find({ userId }).populate("productId");
-        console.log(cartListProducts);
         res.status(200).json(cartListProducts);
     }
     catch (err) {
