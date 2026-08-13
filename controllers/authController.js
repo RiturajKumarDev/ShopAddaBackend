@@ -91,3 +91,47 @@ exports.getUser = async (req, res, next) => {
         res.status(500).json({ errors: "Server Error" + err.errmsg });
     }
 };
+
+
+exports.updateUser = async (req, res, next) => {
+    const { _id } = req.params;
+    const { fullName, email, mobile, dob, gender } = req.body;
+
+    try {
+        const user = await User.findById(_id);
+
+        if (!user) {
+            return res.status(404).json({
+                errors: ["User not found"]
+            });
+        }
+
+        // Update only provided fields
+        if (fullName !== undefined) user.fullName = fullName;
+        if (email !== undefined) user.email = email;
+        if (mobile !== undefined) user.mobile = mobile;
+        if (dob !== undefined) user.dob = dob;
+        if (gender !== undefined) user.gender = gender;
+
+        const updatedUser = await user.save();
+
+        res.status(200).json({
+            message: "Profile updated successfully",
+            user: updatedUser
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        // Duplicate email/mobile
+        if (error.code === 11000) {
+            return res.status(409).json({
+                errors: ["Email or mobile already exists"]
+            });
+        }
+
+        res.status(500).json({
+            errors: ["Server Error"]
+        });
+    }
+};
