@@ -8,7 +8,7 @@ exports.uploadAddress = async (req, res, next) => {
         .then(result => {
             return res.status(201).json(address);
         }).catch(error => {
-            return res.status(422).json({ "errors": error.errmsg });
+            return res.status(400).json({ "errors": error.errmsg });
         });
 };
 
@@ -30,7 +30,7 @@ exports.updateAddress = async (req, res, next) => {
             address.isDefault = isDefault;
             address.save()
                 .then(result => {
-                    return res.status(201).json(address);
+                    return res.status(204).json(address);
                 }).catch(error => {
                     return res.status(422).json({ "errors": error.errmsg });
                 });
@@ -41,9 +41,9 @@ exports.deleteAddress = async (req, res, next) => {
     const { userId, addressId } = req.body;
     Address.findOneAndDelete({ userId, _id: addressId })
         .then(result => {
-            return res.status(201).json(result);
+            return res.status(204).json(result);
         }).catch(error => {
-            return res.status(422).json({ "errors": error.errmsg });
+            return res.status(401).json({ "errors": error.errmsg });
         });
 };
 

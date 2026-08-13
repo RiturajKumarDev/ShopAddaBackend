@@ -17,7 +17,7 @@ exports.removeFromCart = async (req, res, next) => {
     const { userId, productId } = req.body;
     Cart.findOneAndDelete({ userId, productId })
         .then(result => {
-            return res.status(201).json(result);
+            return res.status(204).json(result);
         }).catch(error => {
             return res.status(422).json({ "errors": error.errmsg });
         });

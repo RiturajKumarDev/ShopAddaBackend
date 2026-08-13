@@ -50,7 +50,6 @@ exports.register = [
         const user = { userType, fullName, email, mobile, dob, gender, password } = req.body;
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            console.log(errors);
             return res.status(422).json({
                 "errors": errors.array().map(error => error.msg),
             });
@@ -86,7 +85,7 @@ exports.getUser = async (req, res, next) => {
     console.log(_id);
     try {
         const user = await User.findById(_id);
-        res.status(204).json(user);
+        res.status(200).json(user);
     }
     catch (err) {
         res.status(500).json({ errors: "Server Error" + err.errmsg });
